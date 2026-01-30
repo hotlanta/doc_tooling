@@ -1,0 +1,14 @@
+# HPE GitHub account using id_rsa_hpe
+Host github.hpe.com
+    HostName github.hpe.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_hpe
+    IdentitiesOnly yes
+
+# HCLTech GitHub account (ctg-bss) using id_rsa
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+

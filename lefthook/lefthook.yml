@@ -1,0 +1,23 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://lefthook.dev/configuration/
+#
+pre-commit:
+  parallel: false
+  commands:
+    vale:
+      run: powershell -ExecutionPolicy Bypass -File ./run-vale.ps1 -Mode console -RunContext hook
+
+    pdf:
+      run: >
+        powershell -ExecutionPolicy Bypass -Command "
+        $pdfs = Get-ChildItem -Path out/pdf -Filter *.pdf -Recurse -ErrorAction SilentlyContinue;
+        if (-not $pdfs) { Write-Host 'No PDFs found – skipping PDF analysis'; exit 0 };
+        foreach ($pdf in $pdfs) {
+          python scripts/pdf_analyzer.py $pdf.FullName
+            --run-context hook
+            --check-links
+            --no-external-links
+            --json .vale/results/pdf-analysis.json
+        }"
